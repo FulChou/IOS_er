@@ -41,13 +41,13 @@ func load<T: Decodable>(_ filename: String) -> T {
         fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
     }
 }
-
+// 单例模式的使用：
 final class ImageStore {
     typealias _ImageDictionary = [String: CGImage]
     fileprivate var images: _ImageDictionary = [:]
 
     fileprivate static var scale = 2
-    // 单例模式：
+    
     static var shared = ImageStore()
     
     func image(name: String) -> Image {
