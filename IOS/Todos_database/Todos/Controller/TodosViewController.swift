@@ -255,8 +255,10 @@ extension TodosViewController:AddTodoDelegate,UISearchBarDelegate{
         
         tableView.reloadData()
     }
+    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
     }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text!.isEmpty{
             todos = realm.objects(Todo.self)
