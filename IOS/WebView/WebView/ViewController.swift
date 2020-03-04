@@ -38,8 +38,8 @@ class ViewController: UIViewController {
             }
         }
 
-        print(url)
-        loadURL(urlString: url)
+//        print(url)
+//        loadURL(urlString: url)
         // Do any additional setup after loading the view.
     }
     
