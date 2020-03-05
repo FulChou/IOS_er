@@ -17,5 +17,16 @@ Gradle编译android项目：
 2. ./gradlew tasks //编译项目
 3. ./gradlew installDebug // 安装项目到当前连接的设备上
 
+## 第二章 andoriod 与MVC设计模式：
+
+- 配置android项目，修改变量前缀识别，在codeStyle CodeGeneration中
+- 资源，通过java R类去找到，返回的id 是一个int类型的数据
+- 在控制器中，找String资源，使用R.string.xx 找视图的话， 使用findViewById（R.id.视图id）（记得cast to 视图的类型）
 
 
+- 为控制应用包的大小，我们可以只为主流设备准备分辨率较高的定制图片资源。至于那些不常见的低分辨率设备，让Android系统自动适配就好。
+
+- 向应用中添加图片：
+  - 建立不同像素率的文件夹，将不同像素的图片，放到不同的文件夹中去。图省事，可以只放高像素的图片。
+  - 注意点：图片后缀为：.jpg .png .gif 能够自动获得资源id，（注意，文件名必须是小写字母且不能有任何空格符号。）
+- 挑战练习：为 TextView 添加监听器
