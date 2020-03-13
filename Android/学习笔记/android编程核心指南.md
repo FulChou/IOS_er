@@ -91,3 +91,25 @@ Gradle编译android项目：
 
 ## 第五章：第二个activity
 
+- 新建String文件，键值对
+- 新建一个CheatActivity
+- 新建布局的xml
+
+- Android Studio的快速打开文件功能：使用
+Command+Shift+O（或Ctrl+Shift+N）快捷键，呼出快速打开对话框，利用提示功能或直接输入
+目标文件名，按Return（或Enter）键打开
+- 新建btn，然后在btn添加点击事件来新建一个activity
+- activity调用startActivity(...)方法时，调用请求实
+际发给了操作系统。通过传入intent 参数来指定开始哪一个activity
+- 在启动activity前，ActivityManager会检查确认指定的Class是否已在配置文件中声明。如已完成声明，则启动activity，应用正常运行。反之，则抛出ActivityNotFoundException异常，可能会导致应用崩溃。这就是我们必须在manifest配置文件中声明应用全部activity的原因所在。
+- 显示intent和隐式intent
+  - 一个应用的activity如需启动另一个应用的activity，可通过创建隐式intent来处理
+
+- activity 间的数据传递：
+  - 给子activity传递数据：通过使用使用 intent extra，附在Intent一起带过去 intent.putExtra
+  - 使用boolean getBooleanExtra(String name, boolean defaultValue)//获得 name建所对应值```mAnswerIsTrue=getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE,false);```
+  - 子activity返回数据给之前的activity：
+  - 点击的时候，给父activity传值：new Intent（）、putExtra(key,value),setResult(return_OK,intent)
+  - 父activity通过重写protected void onActivityResult(int requestCode, int resultCode, Intent data)，判断requestCode来看是哪个之界面返回的，resltCode看返回是否成功，Intent中找到返回到父Activity的键值对。
+- Activity.finish()//可以将QuizActivity从栈里面弹出
+- 不局限于单个应用，回退栈作为一个整体共享给操作系统及设备使用

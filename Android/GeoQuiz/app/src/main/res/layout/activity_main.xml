@@ -36,6 +36,12 @@
             android:text="@string/false_button" />
 
     </LinearLayout>
+    <!-- add cheat btn -->
+    <Button
+        android:id="@+id/cheat_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cheat_button"/>
 
     <!-- 前后按钮-->
     <LinearLayout

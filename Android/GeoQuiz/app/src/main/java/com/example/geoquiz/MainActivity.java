@@ -1,7 +1,11 @@
 package com.example.geoquiz;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,12 +17,20 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "QuizActivity";
+    private static final String EXTRA_ANSWER_IS_TRUE =
+            "MainActivity.geoquiz.answer_is_true";
+    private static final String EXTRA_ANSWER_SHOWN =
+            "geoquiz.answer_shown";
+
+    private static final int REQUEST_CODE_CHEAT = 0;
+    private boolean mIsCheater;
 
     private Button mTrueButton;
     private Button mFalseButton;
 
     private Button mNextButton;
     private Button mPreviewButton;
+    private Button mCheatButton;
 
     private ImageButton mNextImageBtn;
     private ImageButton mPreviewImageBtn;
@@ -38,20 +50,37 @@ public class MainActivity extends AppCompatActivity {
     public void updateQuestionView() {
         int questionId = mQuestionBank[mCurrentIndex].getTextResId();
         mQuestionTextView.setText(questionId);
+        mIsCheater = false;
 
     }
+
+    public static Intent newIntent(Context packageContext, boolean answerIsTrue) {
+        Intent i = new Intent(packageContext, CheatActivity.class);
+        i.putExtra(EXTRA_ANSWER_IS_TRUE, answerIsTrue);
+        return i;
+    }
+
 
     private void checkAnswer(boolean userPressedTrue) {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
         int messageResId = 0;
-        if (userPressedTrue == answerIsTrue) {
-            messageResId = R.string.correct_toast;
+
+        // 验证是否看过正确答案
+        if (mIsCheater) {
+            messageResId = R.string.judgment_toast;
+
         } else {
-            messageResId = R.string.incorrect_toast;
+
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_toast;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }
         }
-        // 中间那个是要显示的字符串id
+        // 中间那个是要显示的字符串 id
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
                 .show();
+
     }
 
     @Override
@@ -68,12 +97,24 @@ public class MainActivity extends AppCompatActivity {
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
 //        mNextButton = (Button) findViewById(R.id.next_button);
 //        mPreviewButton = (Button) findViewById(R.id.preview_button);
-
+        mCheatButton = (Button) findViewById(R.id.cheat_button);
         mPreviewImageBtn = (ImageButton) findViewById(R.id.preview_image_btn);
         mNextImageBtn = (ImageButton) findViewById(R.id.next_image_btn);
 
 
         updateQuestionView();
+
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start CheatActivity
+                Intent i = newIntent(MainActivity.this, mQuestionBank[mCurrentIndex].isAnswerTrue());
+//                                                startActivity(i);
+                // 带了一个结束返回码，区别是哪个界面返回来的
+                startActivityForResult(i, REQUEST_CODE_CHEAT);
+//                                                System.out.println();
+            }
+        });
 
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,27 +165,46 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-// 周期函数：
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_CODE_CHEAT) {
+            if (data == null) {
+                return;
+            }
+            mIsCheater = data.getBooleanExtra(EXTRA_ANSWER_SHOWN, false);
+        }
+    }
+
+    // 周期函数：
     @Override
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart() called");
     }
+
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause() called");
     }
+
     @Override
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume() called");
     }
+
     @Override
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop() called");
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
