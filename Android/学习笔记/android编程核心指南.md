@@ -1,4 +1,4 @@
-# android编程指南入门学习：
+# Android编程指南入门学习笔记：
 
 ## 第一章：
 
@@ -113,3 +113,23 @@ Command+Shift+O（或Ctrl+Shift+N）快捷键，呼出快速打开对话框，�
   - 父activity通过重写protected void onActivityResult(int requestCode, int resultCode, Intent data)，判断requestCode来看是哪个之界面返回的，resltCode看返回是否成功，Intent中找到返回到父Activity的键值对。
 - Activity.finish()//可以将QuizActivity从栈里面弹出
 - 不局限于单个应用，回退栈作为一个整体共享给操作系统及设备使用
+
+## 第六章：Android SDK版本与兼容
+
+- SDK 最低版本
+  - 最低版本设置值为标准，操作系统会拒绝将应用安装在系统版本低于标准的设备上。
+- SDK 目标版本：
+  - 应用是设计给哪个API级别去运行的。大多数情况下，目标版本即最新发布的Android版本
+  - 如果新发布的SDK版本会改变应用在设备上的显示方式，甚至连后台操作系统运行也会受到影响。
+  - 要么修改应用去适应新版本系统，要么降低SDK目标版本。降低SDK目标版本可以保证的是，即便在高于目标版本的设备上，应用仍然可以正常运行，且运行行为仍和目标版本保持一致。这是因为新发布版本中的变化已被忽略。
+- SDK 编译版本：
+  - 在编译代码时，SDK编译版本或编译目标指定具体要使用的系统版本。Android Studio在寻找类包导入语句中的类和方法时，编译目标确定具体的基准系统版本。
+- 可以通过在官方文档上，查看api在哪个sdk版本是适用的。
+- Build.VERSION.SDK_INT //当前设备使用的api版本
+
+
+
+
+
+
+

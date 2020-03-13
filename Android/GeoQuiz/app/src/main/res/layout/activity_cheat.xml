@@ -33,6 +33,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/showAnswerButton"
         android:text="@string/show_answer_button"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sdk_version"/>
 
 
 </LinearLayout>
