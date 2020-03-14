@@ -154,8 +154,10 @@ activity 托管 UI Fragment 两种方式
   - 引用fragmentManager进行fragment 的管理。
 ![](img/android编程核心指南/android编程核心指南-2020-03-14-15-39-15.png) 
 
-```java
- FragmentManager fm = getSupportFragmentManager(); 
+
+
+``` java
+FragmentManager fm = getSupportFragmentManager(); 
  Fragment fragment = fm.findFragmentById(R.id.fragment_container); 
  if (fragment == null) { 
  fragment = new CrimeFragment(); 
@@ -164,15 +166,62 @@ activity 托管 UI Fragment 两种方式
  .commit(); 
  } 
  }
- ```
+```
+ 
 
  - 使用容器视图资源ID去识别UI fragment是FragmentManager的内部实现机制。 如果要向activity添加多个fragment，通常需要分别为每个fragment创建不同ID的容器。一个容器对应着一个fragment
  - activity的FragmentManager负责调用队列中fragment的生命周期方法。添加fragment供FragmentManager管理时，onAttach(Activity)、onCreate(Bundle)以及onCreateView(...)方法会被调用。
  
  保持fragment 与 activity 的状态一致。
 
- - 一个良好的使用原则是：应用单屏至多使用2～3个fragment
- 
+- 一个良好的使用原则是：应用单屏至多使用2～3个fragment
+
+## 第八章：使用布局与组件创建用户界面
+
+- java里面是自己有UUId和Date对象的，直接new
+- CheckBox(单击打勾控件)，setOnCheckedChangeListener
+
+```java
+mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+ @Override
+ public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+ // Set the crime's solved property
+ mCrime.setSolved(isChecked);
+ }
+});
+```
+
+- 样式，(style) 一系列属性的集合
+  - 创建自己的样式文件。具体做法是将属性定义添加并保存在res/values/目录下的样式文件中，然后在布局文件中以@style/my_own_style（样式文件名的形式引用
+- 主题是各种样式的集合
+- dp、sp以及屏幕像素：
+  - dp在不同的屏幕密度上都是都是一样大的
+  - sp与上面一样，但是像素会受用户字体偏好设置的影响。我们通常会使用sp来设置屏幕上的字体大小
+  - text size 文字的像素高度
+  - margin 视图组件间的距离
+  - padding 内边距 视图外边框与其内容间的距离。
+- 布局参数：
+  - 不以layout_开头的属性作用于组件。组件实例化时，会调用某个方法按照属性及属性值进行自我配置。
+  - 以layout_开头的属性则作用于组件的父组件。我们将这些属性统称为布局参数。它们会告诉父布局如何在内部安排自己的子元素
+- 可以通过图形界面设计ui的时候快速设计landscape的ui视图，默认会复制之前的xml
+  - 使用图形界面来编辑属性（还不错）
+  - layout_weight:这个属性在宽（高）之后再进行作用，将空白区域按照比例来分配
+  - 如果想直接按照比例，可以先把width 设置为0dp
+  - 如果一个组件只存在于一个布局上，则应先在代码中进行空值检查，确认当前方向的组件存在，再调用相关方法：
+
+```java
+Button landscapeOnlyButton = (Button)v.findViewById(R.id.landscapeOnlyButton); 
+if (landscapeOnlyButton != null) { 
+ // Set it up 
+}
+
+```
+
+- 定义在水平或竖直布局文件里的同一组件必须具有同样的android:id属性，这样代码才能引用到它。
+- 使用DateFormat来格式化日期： 
+`String date = (String) DateFormat.format("EEEE, MMMM dd, yyyy", mCrime.getDate());`
+
+
 
 
 
