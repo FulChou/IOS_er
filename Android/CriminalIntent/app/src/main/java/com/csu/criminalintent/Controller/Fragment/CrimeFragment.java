@@ -1,4 +1,4 @@
-package com.csu.criminalintent;
+package com.csu.criminalintent.Controller.Fragment;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +13,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
+
+import com.csu.criminalintent.R;
+import com.csu.criminalintent.model.Crime;
 
 import static android.text.format.DateFormat.format;
 

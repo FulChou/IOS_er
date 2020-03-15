@@ -205,7 +205,7 @@ mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
   - 以layout_开头的属性则作用于组件的父组件。我们将这些属性统称为布局参数。它们会告诉父布局如何在内部安排自己的子元素
 - 可以通过图形界面设计ui的时候快速设计landscape的ui视图，默认会复制之前的xml
   - 使用图形界面来编辑属性（还不错）
-  - layout_weight:这个属性在宽（高）之后再进行作用，将空白区域按照比例来分配
+  - layout_weight:这个属性在宽（高）width 属性起作用之后再进行作用，将空白区域按照比例来分配
   - 如果想直接按照比例，可以先把width 设置为0dp
   - 如果一个组件只存在于一个布局上，则应先在代码中进行空值检查，确认当前方向的组件存在，再调用相关方法：
 
@@ -219,9 +219,35 @@ if (landscapeOnlyButton != null) {
 
 - 定义在水平或竖直布局文件里的同一组件必须具有同样的android:id属性，这样代码才能引用到它。
 - 使用DateFormat来格式化日期： 
-`String date = (String) DateFormat.format("EEEE, MMMM dd, yyyy", mCrime.getDate());`
+`String date = (String) DateFormat.format("EEEE, MMMM dd, yyyy",mCrime.getDate());`
 
+## 第九章：使用RecyclerView显示列表
 
+- 实现一个列表，列表中的crime使用list存储，并且使用单例模式，来保证每次访问的都是同一个 crimes
+- 需要一个CrimeListActivity 指定一个放置 fragmemt的模版 xml布局文件即可，然后就新建一个fragment，并且使用自己的 布局文件
+- **单例模式**：一个私有的本身，一个私有的构造方法，一个静态的get对象的方法，这个类只能有一个对象，保证类这个应用程序的数据，在每个controller中都是共享的，并且一个改变，其他的都能够改变。当然了使用的是最简单的单例模式。
+- 使用fragment，activity中需要指定一个xml布局文件，并且指定其中的一个layout，可以说，fragment之后就放在这个位置。
+- 可以抽象出一个通用的使用单一的Fragment 的类，来方便我们进行activity 的初始化，也就是说activity现在只需要指定到底生成的是哪个fragment就可以了，其他的activity需要的布局xml，和layout都是使用一个默认的。
 
+- 使用RecyclerView：
+  - 只会初始化一个屏幕的item，然后滚动的话其他的cell使用复用的技术。
+- ViewHolder：用来容纳View视图
+  - RecyclerView自身不会创建视图，它创建的是ViewHolder，而ViewHolder引用着一个个itemView，
+- Adapter： RecyclerView自己不创建ViewHolder。这个任务实际是由adapter来完成的。adapter是个控制器对象
+  - 创建必要的ViewHolder；
+  - 绑定ViewHolder至模型层数据
+- 找到RecyclerView要设置它的LayoutManager（），LayoutManager还负责
+定义屏幕滚动行为。因此，没有LayoutManager，RecyclerView也就没法正常工作了。
+
+- ViewHolder需要被创建或与Crime对象关联时，RecyclerView会和它沟通。在这里指定要构建的视图的布局文件xml，RecyclerView不关心也不了解具体的里面的数据，这是Adapter要做的事。
+- Adapapter需要实现的三个方法：
+  -  onCreateViewHolder   当RecyclerView需要新的View视图来显示列表项时，会调用onCreateViewHolder方法。在这个方法内部，我们创建View视图，然后封装到ViewHolder中。
+  -  onBindViewHolder ： 该方法会把ViewHolder的View视图和模型层数据绑定起来。收到ViewHolder和列表项在数据集中的索引位置后，我们通过索引位置找到要显示的数据进行绑定。绑定完毕，刷新显示View视图。
+  -  getItemCount
+
+- 适配器实例化，然后绑定到RecyclerView上面。
+- 相对布局，每个控件指定它的左右上下对应的其他的控件
+- 在ViewHodler中，把需要在布局文件中应用的控件全部拿出来，变成hodler 的成员变量。
+- itemView就是每个Viewhodler中默认的一个attibute view，可以在上面 setONClickListener（），绑定点击数据，采用匿名内部类即可。
 
 
