@@ -110,8 +110,9 @@ Command+Shift+O（或Ctrl+Shift+N）快捷键，呼出快速打开对话框，�
   - 给子activity传递数据：通过使用使用 intent extra，附在Intent一起带过去 intent.putExtra
   - 使用boolean getBooleanExtra(String name, boolean defaultValue)//获得 name建所对应值```mAnswerIsTrue=getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE,false);```
   - 子activity返回数据给之前的activity：
-  - 点击的时候，给父activity传值：new Intent（）、putExtra(key,value),setResult(return_OK,intent)
-  - 父activity通过重写protected void onActivityResult(int requestCode, int resultCode, Intent data)，判断requestCode来看是哪个之界面返回的，resltCode看返回是否成功，Intent中找到返回到父Activity的键值对。
+    - 开启子应用的时候，就要制定它的请求code，后面可以根据request code来判断是哪个子activity
+    - 点击的时候，给父activity传值：new Intent（）、putExtra(key,value),setResult(return_OK,intent)
+    - 父activity通过重写protected void onActivityResult(int requestCode, int resultCode, Intent data)，判断requestCode来看是哪个之界面返回的，resltCode看返回是否成功，Intent中找到返回到父Activity的键值对。
 - Activity.finish()//可以将QuizActivity从栈里面弹出
 - 不局限于单个应用，回退栈作为一个整体共享给操作系统及设备使用
 
@@ -229,7 +230,7 @@ if (landscapeOnlyButton != null) {
 - 使用fragment，activity中需要指定一个xml布局文件，并且指定其中的一个layout，可以说，fragment之后就放在这个位置。
 - 可以抽象出一个通用的使用单一的Fragment 的类，来方便我们进行activity 的初始化，也就是说activity现在只需要指定到底生成的是哪个fragment就可以了，其他的activity需要的布局xml，和layout都是使用一个默认的。
 
-- 使用RecyclerView：
+- 使用RecyclerView：recyclerview需要通过依赖库来添加：
   - 只会初始化一个屏幕的item，然后滚动的话其他的cell使用复用的技术。
 - ViewHolder：用来容纳View视图
   - RecyclerView自身不会创建视图，它创建的是ViewHolder，而ViewHolder引用着一个个itemView，
@@ -250,4 +251,66 @@ if (landscapeOnlyButton != null) {
 - 在ViewHodler中，把需要在布局文件中应用的控件全部拿出来，变成hodler 的成员变量。
 - itemView就是每个Viewhodler中默认的一个attibute view，可以在上面 setONClickListener（），绑定点击数据，采用匿名内部类即可。
 
+## 第十章：使用fragment argument
 
+- 从fragment中利用intent来打开新的activity
+
+```java
+Intent intent = new Intent(getActivity(), CrimeActivity.class); 
+ startActivity(intent);
+```
+
+- 利用intent中的extra来传递参数
+
+- fragment有两种方式获取intent中的数据：一种简单直接，另一种复杂但比较灵活（涉及fragment argument的概念）。
+  - 直接获得intent，可以先得到geacticity然后获得intent
+  - 缺点就是，这样做将activity与fragment 紧紧的绑定在了一起，一个fragment 无法用于其他的activity
+- 一个更好的做法就是：fragment自己存储自己需要的数据，使用argument bundle
+- 在activity创建它下面的fragment的时候，传参数进去。这样fragment就得到了要的参数，并且是创建就在bundle 对象里面了
+- 也就是说，传递参数的时候，目标activity封装了一下，new intent并且传递参数的代码
+- 然后在加载fragment 之前拿出参数出来，把参数放到fragment封装过的new instance方法中，这个时候，给fragment添加了参数。
+- 获得的办法就是，getArgument（).getxxx(key)去获得。
+
+```java
+// 这样做不需要联系上文的activity 就可以知道传来的参数。。
+Intent intent = CrimeActivity.newIntent(getActivity(),mCrime.getId());
+//
+    public static Intent newIntent(Context packageContext, UUID crimeId) {
+        Intent intent = new Intent(packageContext, CrimeActivity.class);
+        intent.putExtra(EXTRA_CRIME_ID, crimeId);
+        return intent;
+    }
+
+  protected Fragment createFragment() {
+        UUID crimeId = (UUID) getIntent()
+                .getSerializableExtra(EXTRA_CRIME_ID);
+        return CrimeFragment.newInstance(crimeId);
+    }
+
+// new fragment and setArguments()
+    public static CrimeFragment newInstance(UUID crimeId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CRIME_ID, crimeId);
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+```
+
+
+- Unable to find explicit activity class {com.csu.criminalintent/com.csu.criminalintent.Controller.CrimeActivity}; have you declared this activity in your AndroidManifest.xml?//使用多个activity进行跳转时，记得先注册activity。
+
+- **界面反向（子界面结束，向父界面传递）传值三部曲**
+  - 父界面startActivityForResult（）//附上request code and Intent
+  - 子界面在某个地方生成intent并且调用setResult（）可以附加intent和成功与否//这个方法只有activity有
+  - 然后父界面在onActivityResult（）获取到当时那个res code 的情况，然后getxx（）
+
+- 如果设置返回数据刷新，可以全局刷新recyclerView也可以只要刷新某一个cell就可以了，其实就是记住一下，你点来哪一个cell的index，然后刷新就可以来。
+  - 全局刷新的函数：mAdapter.notifyDataSetChanged()
+  - 局部刷新的函数：mAdapter.notifyItemChanged(mCurrentClickIndex);
+
+
+## 第23章 使用 AsyncTask 在后台线程上运行代码
+
+- 如果使用 在AndroidMainfest中添加，在app中进行了网络访问，那么要记得模拟器 uninstall app 并且Androidminst文件中添加：` <uses-permission android:name="android.permission.INTERNET" />`
