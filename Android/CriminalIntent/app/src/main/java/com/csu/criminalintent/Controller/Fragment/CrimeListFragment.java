@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.csu.criminalintent.Controller.ActivityReqCodeEnum;
 import com.csu.criminalintent.Controller.CrimeActivity;
+import com.csu.criminalintent.Controller.CrimePagerActivity;
 import com.csu.criminalintent.R;
 import com.csu.criminalintent.model.Crime;
 import com.csu.criminalintent.model.CrimeLab;
@@ -111,13 +112,14 @@ public class CrimeListFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     //Intent intent = new Intent(getActivity(), CrimeActivity.class);
-                    Intent intent = CrimeActivity.newIntent(getActivity(),mCrime.getId());
-
-                    startActivityForResult(intent, ActivityReqCodeEnum.CrimeActivityRequistCode.ordinal());
+//                    Intent intent = CrimeActivity.newIntent(getActivity(),mCrime.getId());
+                    Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
+                    Log.d("dubug", "onClick: click");
+                    //startActivityForResult(intent, ActivityReqCodeEnum.CrimeActivityRequistCode.ordinal());
 
                     mCurrentClickIndex = mCrimeRecyclerView.getChildAdapterPosition(view);
 
-                    //startActivity(intent);
+                    startActivity(intent);
 
                    // Toast.makeText(getActivity(),mCrime.getTitle()+"Clicked!",Toast.LENGTH_SHORT).show();
 //                    mCrimeRecyclerView.getAdapter().notifyItemMoved(0, 5);

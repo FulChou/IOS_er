@@ -311,6 +311,3 @@ Intent intent = CrimeActivity.newIntent(getActivity(),mCrime.getId());
   - 局部刷新的函数：mAdapter.notifyItemChanged(mCurrentClickIndex);
 
 
-## 第23章 使用 AsyncTask 在后台线程上运行代码
-
-- 如果使用 在AndroidMainfest中添加，在app中进行了网络访问，那么要记得模拟器 uninstall app 并且Androidminst文件中添加：` <uses-permission android:name="android.permission.INTERNET" />`
