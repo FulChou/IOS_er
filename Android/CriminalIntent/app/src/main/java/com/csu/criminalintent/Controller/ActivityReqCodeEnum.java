@@ -1,5 +1,5 @@
 package com.csu.criminalintent.Controller;
 
 public enum ActivityReqCodeEnum {
-    CrimeActivityRequistCode;
+    CrimeActivityRequestCode,DataPickerFragmentResCode,TimePickerFragmentResCode;
 }

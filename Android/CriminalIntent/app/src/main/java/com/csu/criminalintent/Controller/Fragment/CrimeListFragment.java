@@ -40,7 +40,6 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("----------");
 
     }
 
@@ -87,12 +86,12 @@ public class CrimeListFragment extends Fragment {
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
-        if (requestCode == ActivityReqCodeEnum.CrimeActivityRequistCode.ordinal()) {
+        if (requestCode == ActivityReqCodeEnum.CrimeActivityRequestCode.ordinal()) {
             if (data == null) {
                 return;
             }
             String testString = data.getStringExtra("test");
-            Log.d(TAG, "onActivityResult: "+testString);
+            Log.d("debuging", "onActivityResult: "+testString);
         }
     }
 
@@ -114,8 +113,7 @@ public class CrimeListFragment extends Fragment {
                     //Intent intent = new Intent(getActivity(), CrimeActivity.class);
 //                    Intent intent = CrimeActivity.newIntent(getActivity(),mCrime.getId());
                     Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
-                    Log.d("dubug", "onClick: click");
-                    //startActivityForResult(intent, ActivityReqCodeEnum.CrimeActivityRequistCode.ordinal());
+                    //startActivityForResult(intent, ActivityReqCodeEnum.CrimeActivityRequestCode.ordinal());
 
                     mCurrentClickIndex = mCrimeRecyclerView.getChildAdapterPosition(view);
 
