@@ -29,7 +29,9 @@ cout<<a<<endl;
 **3、cin.getline()**   // 接受一个字符串，可以接收空格并输出
 
 延伸：
-cin.getline()实际上有三个参数，cin.getline(接受字符串数组,接受个数包括一个‘\0‘,结束字符)
+cin.getline()实际上有三个参数，字符数组名，接受字符数目，结束字符。
+
+cin.getline(接受字符串数组,接受个数包括一个‘\0‘,结束字符)
 
 当第三个参数省略时，系统默认为'\0'。如果将例子中cin.getline()改为cin.getline(m,5,'a');当输入jlkjkljkl时输出jklj，输入jkaljkljkl时，输出jk
 
@@ -41,13 +43,18 @@ cin.getline()实际上有三个参数，cin.getline(接受字符串数组,接受
 string line;
 getline(cin,line)
 ```
+
 5.  scanf(): `EOF = -1`
 ```c++
 int a, b;
 while (scanf("%d %d", &a, &b) != EOF){
     ...
 }
+
+scanf("%4d%2d%2d", &a.y, &a.m, &a.d)!=EOF //读取固定的格式数据：
+
 ``` 
+
 6. getchar(); // take the '\n' 
 7. 获取一个字符
 
@@ -66,6 +73,38 @@ int c = abs(b-c);
 double d = fabs(b-c);
 ```
 
+## 输出字符的处理知识：
+
+1. cout<<
+2. printf()
+``` bash
+%a  浮点数、十六进制数字和p-记数法（c99
+%A  浮点数、十六进制数字和p-记法（c99）
+%c  一个字符(char)
+%C  一个ISO宽字符
+%d  有符号十进制整数(int)（%ld、%Ld：长整型数据(long),%hd：输出短整形。）　
+%e  浮点数、e-记数法
+%E  浮点数、E-记数法
+%f  单精度浮点数(默认float)、十进制记数法（%.nf  这里n表示精确到小数位后n位.十进制计数）
+%g  根据数值不同自动选择%f或%e．
+%G  根据数值不同自动选择%f或%e.
+%i  有符号十进制数（与%d相同）
+%o  无符号八进制整数
+%p  指针
+%s  对应字符串char*（%s = %hs = %hS 输出 窄字符）
+%S  对应宽字符串WCAHR*（%ws = %S 输出宽字符串）
+%u  无符号十进制整数(unsigned int)
+%x  使用十六进制数字0xf的无符号十六进制整数　
+%X  使用十六进制数字0xf的无符号十六进制整数
+%%  打印一个百分号
+```
+**说明：** 
+
+%2d：表示输出场宽为2的整数，超过2位按照实际数据输出，不够2位右对齐输出。
+
+%02d:表示输出场宽为2的整数，超过2位按照实际数据输出，不够2为前置补0
+
+%5.2f： 表示输出场宽度为5的浮点数，其中小数点后有两位，不够五位右对齐输出
 
 
 ## c++ String 的用法：[参考链接](https://blog.csdn.net/tengfei461807914/article/details/52203202)
@@ -103,7 +142,7 @@ string ss[10];//声明一个string对象的数组
 
 ```c++
     string s="abcdefg";
-//s.substr(pos1,n)返回字符串位置为pos1后面的n个字符组成的串
+//s.substr(pos1,n)返回字符串位置为pos1字符开始，n个字符组成的串
     string s2=s.substr(1,5);//bcdef
 
     //s.substr(pos)//得到一个pos到结尾的串
@@ -401,3 +440,5 @@ str.at()
 **10. 字符长度**
 str.length()
 str.size()
+
+
