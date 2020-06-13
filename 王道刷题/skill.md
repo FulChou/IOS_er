@@ -16,3 +16,7 @@
 // }Date;
 // Date x ;
 ```
+
+6. scanf 别忘了 `scanf("%d",&n)`中的&；
+7.  printf("%04d-%02d-%02d\n",year,month,day)
+8.  
