@@ -12,16 +12,16 @@ struct CodeElement
     double right;
 };
 // sort by youself;
-CodeElement codeElememt [4] = {"A",0.1,0,0.1,"B",0.4,0.1,0.5,"C",0.2,0.5,0.7,"D",0.3,0.7,1.0};
+CodeElement codeElememt [4] = {"A",0.4,0,0.4,"B",0.2,0.4,0.6,"C",0.2,0.6,0.8,"D",0.2,0.8,1.0};
 
-double coderesult = 0.5143876;
+double coderesult ;
 
 
-string code = "CADACDB";
+string code = "DACAB";
 // 算数编码：还是不难的，如果提前把区间写出来，当然也可以自己算区间咯
 int main(){
     double currentL = 0;
-    double currentR = 1;
+    double currentR = 1; 
     double d ;
     int times = code.size();
     // 固定十六位：
@@ -40,12 +40,13 @@ int main(){
                 currentL += codeElememt[j].left*d;
                 // 输出
                 cout<<currentL<<" " <<currentR<<endl;
+                coderesult = currentL;
             }
         }
     }
     // cout<<(0.5143876==0.5143876);
     // 译码：因为浮点数精度问题，不好比较；
-    cout<<"--------------";
+    cout<<"--------------"<<endl;
     double CL = 0;
     double CR = 1;
     string codeStr;
