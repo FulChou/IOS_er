@@ -7,7 +7,7 @@ int main()
 {
     int n;
     vector<string> v, vs;
-    vector< vector<string> > ve;
+    vector<vector<string> > ve;
     while(cin>>n)
     {
         string str;
@@ -33,6 +33,9 @@ int main()
             }
             ve.push_back(vs);  //存放进二维数组中
         }
+         
+
+
         for(int i = 0; i<n; i++)
         {
             if(i>0 && ve[i][0] == ve[i-1][0])  //与前一个目录有相同的根目录
@@ -46,7 +49,7 @@ int main()
                     cout<<ve[i][j]<<endl;
                 }
             }
-            else{
+            else{ //与前一个目录没有相同根目录：
                 for(int j = 0; j<ve[i].size(); j++)
                 {
                     for(int k = 0; k<j; k++)
@@ -55,6 +58,21 @@ int main()
                 }
             }
         }
+
+        // output:
+        //      for(int i=0;i<ve.size();i++){
+        //     for(int j=0;j<ve[i].size();j++){
+        //         if(i!=0&&ve[i][j]==ve[i-1][j]){// same character in the head
+        //             continue;
+        //         }else{// new 
+        //             for(int k=0;k<j;k++){
+        //                 cout<<"  ";
+        //             }
+        //             cout<<ve[i][j]<<endl;
+        //         }
+        //     }
+        // }
+
         cout<<endl;  //每个测试用例最后都有一个空行
     }
     return 0;

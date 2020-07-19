@@ -2,7 +2,7 @@
 #include<cstdio>
 
 using namespace std;
-
+// 理解错 题意了。
 int main(){
     int n;
     int a1,a2,a3,b1,b2,b3;

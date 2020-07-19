@@ -8,6 +8,7 @@ int main(){
     while(scanf("%d %d",&n,&m)!=EOF){
         if(n==0&&m==n) break;
          char table[n][m];
+    // 输入数组 GT
     for (int i = 0; i < n; i++)
         for (int j = 0; j < m; j++)
         {
@@ -22,7 +23,7 @@ int main(){
         time--;
         scanf("%d %d",&raw,&col);
         if(col==0&&raw==0) break;
-
+        // 给的要去计算匹配的数组：
         char table2[raw][col];
         for (int i = 0; i < raw; i++)
             for (int j = 0; j < col; j++)
