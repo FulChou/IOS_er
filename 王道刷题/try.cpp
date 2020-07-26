@@ -21,9 +21,8 @@ void PrintN1(int N){
 
 int main()
 {
-int N;
-scanf("%d",&N);
-PrintN(N);
+    bool temp = 1>(float)0/0;
+    cout<< temp;
     
     return 0;
 }

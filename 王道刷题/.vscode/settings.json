@@ -8,6 +8,8 @@
         "iosfwd": "cpp",
         "string": "cpp",
         "system_error": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "algorithm": "cpp",
+        "__config": "cpp"
     }
 }
