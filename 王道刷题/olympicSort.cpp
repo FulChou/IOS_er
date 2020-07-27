@@ -15,14 +15,38 @@ struct Country{
     int rank4;
     int sortType;
     int rankResult;
+    double valueForRank3();
+    double valueForRank4();
 
-    Country(){
+   Country(){
         rank1 = 1;
         rank2 = 1;
         rank3 = 1;
         rank4 = 1;
     }
+    // double valueForRank3(){
+    //     if(population<1&&goldNum==0) return 0;
+    //     if(population<1) return -1;
+    //     else return (float) goldNum/population;
+    // }
+    // double valueForRank4(){
+    //     if(population<1&&priceNum==0) return 0;
+    //     if(population<1) return -1;
+    //     else return (float) priceNum/population;
+    // }
+
 };
+    double Country::valueForRank3(){
+        if(population<1&&goldNum==0) return 0;
+        if(population<1) return -1;
+        else return (float) goldNum/population; // 要注意转成float！！！
+    }
+    double Country::valueForRank4(){
+        if(population<1&&priceNum==0) return 0;
+        if(population<1) return -1;
+        else return (float) priceNum/population;
+    }
+    
 
 int main(){
     int n,m;
@@ -38,6 +62,7 @@ int main(){
         }
 
         Country needSort[m];
+
         for (int i = 0; i < m; i++)
         {
             int temp;
@@ -54,45 +79,32 @@ int main(){
         for (int i = 0; i < m; i++)
         {
             for(int j=0; j<m;j++){
-                // 比较 金牌数：
+                // 比较金牌数：
                 if(needSort[i].goldNum<needSort[j].goldNum){
                      needSort[i].rank1++;
                 }
-                if(needSort[i].priceNum<needSort[j].priceNum){// 奖牌数
+                // 奖牌数
+                if(needSort[i].priceNum<needSort[j].priceNum){
                     needSort[i].rank2++;
                 }
+                // 金牌比例：
+                if(needSort[i].valueForRank3()==-1){
+                    // if(needSort[j].valueForRank3()==-1) needSort[i].rank3++;
+                }else
+                {
+                    if(needSort[j].valueForRank3()==-1) needSort[i].rank3++;
+                    else if(needSort[i].valueForRank3()<needSort[j].valueForRank3()) needSort[i].rank3++;
+                }
+                // 奖牌比例：
+                if(needSort[i].valueForRank4()==-1){
+                    
+                }else{
+                    if(needSort[j].valueForRank4()==-1) needSort[i].rank4++;
+                    else if(needSort[i].valueForRank4()<needSort[j].valueForRank4()) needSort[i].rank4++;
 
-                if(needSort[i].population<1&&needSort[i].goldNum!=0&&needSort[i].priceNum!=0){
-                    
                 }
-                if(needSort[i].population<11&&needSort[i].goldNum==0){
-                    
-                    if((float)needSort[j].goldNum/needSort[j].population>0){
-                        needSort[i].rank3++;
-                        
-                    } 
-                }
-                if(needSort[i].population<1&&needSort[i].priceNum==0){
-                    
-                    if((float)needSort[j].priceNum/needSort[j].population>0) needSort[i].rank4++;
-                    
-                }
-                if(needSort[i].population>1){// 人数不为零的时候的 金牌，奖品人口比： 比值要记得换成float去进行比较！！！
                 
-                
-                    if((float)needSort[i].goldNum/needSort[i].population<(float)needSort[j].goldNum/needSort[j].population){
-                    needSort[i].rank3++;
-
-                    
-                    }
-                        
-                    if((float)needSort[i].priceNum/needSort[i].population<(float)needSort[j].priceNum/needSort[j].population){
-                    needSort[i].rank4++;
-
-                    // if(i==5) cout<<needSort[j].goldNum<<needSort[j].population;
-
-                        }
-                }
+            
 
             }
         }
@@ -120,12 +132,13 @@ int main(){
                 needSort[i].rankResult = min;
         }
         
-        // output;
-        // for (int i = 0; i < m; i++)
-        // {
-        //     cout<<needSort[i].rankResult<<":"<<needSort[i].sortType<<endl;
-        // }
-        cout<<needSort[5].rank1<<needSort[5].rank2<<needSort[5].rank3<<needSort[5].rank4<<endl;
+        //output;
+
+        for (int i = 0; i < m; i++)
+        {
+            cout<<needSort[i].rankResult<<":"<<needSort[i].sortType<<endl;
+        }
+        //cout<<needSort[5].rank1<<needSort[5].rank2<<needSort[5].rank3<<needSort[5].rank4<<endl;
         
 
     }
