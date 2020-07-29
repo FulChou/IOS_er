@@ -10,6 +10,8 @@
         "system_error": "cpp",
         "__locale": "cpp",
         "algorithm": "cpp",
-        "__config": "cpp"
+        "__config": "cpp",
+        "iterator": "cpp",
+        "chrono": "cpp"
     }
 }
