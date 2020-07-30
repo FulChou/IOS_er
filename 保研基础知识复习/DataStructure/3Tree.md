@@ -156,3 +156,68 @@ BinTree Delete( BinTree BST, ElementType X )
     return BST;
 }
 ```
+
+### 平衡二叉树：
+
+平衡因子：BF(T) = hL-hR
+- 平衡二叉树(Valanced Binary Tree)(AVL树)
+  - 空树，或者任意节点左右子树高度差不超过1，即｜BF（T）｜<1
+
+- 给定节点数为n的AVL树的最大高度为 h = O(logn)
+
+- 平衡二叉树的调整，保证还是个搜索树；
+
+例题：是否是同一棵二叉搜索树：
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730151123.png)
+3. 建造一个树，然后将另外的序列和现有的树进行比对，来判断是否一致。
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730152045.png)
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730152407.png)
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730152927.png)
+- 去树中查找 序列中的数据： 要查找的过程中碰到没有找到过的元素，就不是同一个棵树了
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730153139.png)
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730153359.png)
+- 要一次把序列中全部的数读进来。。。可以加标记，读入全部的数，但是中间有已经失败的时候，就不去做判断了。
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730153902.png)
+
+### 单链表逆转： 边界测试
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730155005.png)
+
+### 堆：
+优先队列：特殊的“队列”，取出元素的顺序是依照元素的优先级，而不是元素进入队列的先后顺序。
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730160129.png)
+
+特性：
+- 完全二叉树
+- 任意节点的关键字是子树所有节点的最大值（最小值）即 最大堆（最小堆）
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730161827.png)
+
+- 数组实现：
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730162152.png)
+
+- 插入：完全二叉树来差，+ 换位置（跟父亲节点进行比较）i>1;或者index 等于0的时候，放一个很大的值。
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730162537.png)
+
+- 删除：O(logN)
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730163240.png)
+
+建立最大堆：将已经存在的N个元素按照最大堆的要求存放在一个一维数组中：
+- 第二种方法更好：
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730163452.png)
+
+- 建堆算法：O(n).从最后一个非叶子节点，开始比较，形成一个堆，从右边到左边再从下到上。
+
+
+
+
+
+### 哈夫曼树与哈夫曼编码：
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200730165358.png)
