@@ -21,8 +21,9 @@ void PrintN1(int N){
 
 int main()
 {
-    bool temp = 1>(float)0/0;
-    cout<< temp;
+    string str1 = "abc";
+    string str2 = "bc";
+    if(str2>str1) cout<<string::npos;
     
     return 0;
 }
