@@ -221,3 +221,80 @@ BinTree Delete( BinTree BST, ElementType X )
 ### 哈夫曼树与哈夫曼编码：
 
 ![](https://gitee.com/csu_vincent/images/raw/master/null/20200730165358.png)
+
+每次把权值最小的两颗二叉树合并：
+
+- 使用最小堆（O(nlogn)
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200731161503.png)
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200731161800.png)
+
+- 哈夫曼编码： 代价最小
+
+- 前缀码：任何字符的编码都不是另一个字符编码的前缀：
+  - 可以无二义地解码
+
+当编码都是二叉树的叶子节点时，可以保证编码是前缀码，解码无二义性；
+
+### 集合及运算：
+
+- 并查集：
+每个节点都指向它的父亲（双亲表示法）
+
+- 采用数组的存储方法：使用结构数组来表示就可以了，一个数据域，一个父亲的数组index，没有父亲则为-1；
+  - 查找操作实现：从数组里面找x，没找到返回-1，找到后返回index-指到父亲节点的index。
+  - 并运算：
+    - 分别找到x1和x2两个元素所在集合树的根节点
+    - 如果它们不同根，则将其中一个根节点的父节点指针设置成另一个根节点的数组下标。
+    - 如果想要并的时候，不过多的增加树的高度，可以把小的集合合并到大的集合，（每个集合到底有多少个元素，可以采取，root节点存储的parent 指针为 -n，就是集合有n个节点）
+
+```c++
+#define MAXN 1000                  /* 集合最大元素个数 */
+typedef int ElementType;           /* 默认元素可以用非负整数表示 */
+typedef int SetName;               /* 默认用根结点的下标作为集合名称 */
+typedef ElementType SetType[MAXN]; /* 假设集合元素下标从0开始 */
+ 
+void Union( SetType S, SetName Root1, SetName Root2 )
+{ /* 这里默认Root1和Root2是不同集合的根结点 */
+    /* 保证小集合并入大集合 */
+    if ( S[Root2] < S[Root1] ) { /* 如果集合2比较大 */
+        S[Root2] += S[Root1];     /* 集合1并入集合2  */
+        S[Root1] = Root2;
+    }
+    else {                         /* 如果集合1比较大 */
+        S[Root1] += S[Root2];     /* 集合2并入集合1  */
+        S[Root2] = Root1;
+    }
+}
+ 
+SetName Find( SetType S, ElementType X )
+{ /* 默认集合元素全部初始化为-1 */
+    if ( S[X] < 0 ) /* 找到集合的根 */
+        return X;
+    else // 重要！！！！！
+        return S[X] = Find( S, S[X] ); /* 路径压缩 */
+}
+```
+
+### 例题：堆中的路径 
+堆，完全二叉树，可以用数组实现；父亲就是i/2；
+
+插入：
+先找到位置，然后插入；
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200801154457.png)
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200801154800.png)
+
+### 例题：file transfer
+简化集合，（对于数据类型是简单类型的集合来说，用序号表示数据，里面的内容放parent）
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200801170255.png)
+
+![](https://gitee.com/csu_vincent/images/raw/master/null/20200801170435.png)
+
+会超时间，是因为没有把小的树贴到大的树上，还可以进行（减少树的高度操作。）存
+
+比树的高度：-树高
+比集合的规模：-元素树  O（logN) 适合使用路径压缩。
+
+路径压缩：反反复复的调用，就会很快；
