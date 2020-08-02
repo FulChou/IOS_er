@@ -297,4 +297,4 @@ SetName Find( SetType S, ElementType X )
 比树的高度：-树高
 比集合的规模：-元素树  O（logN) 适合使用路径压缩。
 
-路径压缩：反反复复的调用，就会很快；
+路径压缩：反反复复的调用find，就会很快：
