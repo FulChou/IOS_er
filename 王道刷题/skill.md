@@ -27,3 +27,47 @@
 当比较函数返回true时，表示的是比较函数的第一个参数将会排在第二个参数前面。
 
 10. sort(a,a+n,greater<int>())// 从大到小排序。
+11. KMP字符串匹配算法：
+```c++
+// 求next 数组：
+void getNext(char * p, int * next)
+{
+	next[0] = -1;
+	int i = 0, j = -1;
+
+	while (i < strlen(p))
+	{
+		if (j == -1 || p[i] == p[j])
+		{
+			++i;
+			++j;
+			next[i] = j; // 如果当前的字符一致
+		}	
+		else
+			j = next[j]; 
+	}
+}
+// 进行kmp算法：
+int KMP(char * t, char * p) 
+{
+	int i = 0; 
+	int j = 0;
+
+	while (i < strlen(t) && j < strlen(p)) // i是否匹配超过字符串长度，是否匹配到目前的pattern
+	{
+		if (j == -1 || t[i] == p[j]) 
+		{
+			i++;
+         j++;  // 匹配到了一个字符
+		}
+	 	else // 没有匹配到，所以转到下一个位置
+           		j = next[j];
+    	}
+
+    if (j == strlen(p))
+       return i - j;
+    else 
+       return -1;
+}
+
+```
