@@ -1,76 +1,49 @@
-#include <iostream>
-#include <cstdio>
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+const int maxN = 1000000;
 
 using namespace std;
 
-
-
-void getNext(char * p, int * next)
-{
-	next[0] = -1;
-	int i = 0, j = -1;
-
-	while (i < strlen(p))
-	{
-		if (j == -1 || p[i] == p[j])
-		{
-			++i;
-			++j;
-			next[i] = j;
-		}	
-		else
-			j = next[j];
-	}
+void getNext(char* p,int * next){
+    next [0] = -1;
+    int i=0;
+    int j = -1;
+    while(i<strlen(p)){
+        if(j==-1||p[i]==p[j]){
+            ++i;
+            ++j;
+            next[i]=j;
+        }else j = next[j];
+    }
 }
 
-int KMP(char * t, char * p) 
-{
-	int i = 0; 
-	int j = 0;
-
-	while (i < strlen(t) && j < strlen(p))// 字符串没有匹配完，并且 这个模式没有匹配上
-	{
-		if (j == -1 || t[i] == p[j]) //
-		{
-			i++;
-           	j++;
-		}
-	 	else 
-           		j = next[j];
+int KMP(char* t,char* p,const int* next){
+    int i=0,j=0;
+    int num=0;
+    while(i<strlen(t)){
+        if(j==-1||t[i]==p[j]){
+            ++i;
+            ++j;
+        }else j = next[j];
+        if(j==strlen(p)){
+            num++;
+            j=next[j];
+        }
     }
-
-    if (j == strlen(p))
-       return i - j;
-    else 
-       return -1;
-}
-
-
-void printArr(int *next,int n){
-    for (int i = 0; i < n; i++)
-    {
-        cout<<next[i]<<" ";
-    }
+    return num;
     
 }
-
-
-
 
 int main(){
-
-    int next[9];
-    char str [10] = "abaabcabc";
-    //{'a','b','a','a','b','c','a','b','c'};
-
-    getNext(str,next);
-    printArr(next,9);
+    //string T,P;
+    char T[maxN+1];
+    char P[maxN+1];
     
-
-
-    return 0 ;
-
+    while(scanf("%s %s",T,P)!=EOF){ // cin>> 会被换行符影响
+        int next[strlen(P)]; // cstring 头文件中：
+        getNext(P, next);
+        cout<<KMP(T, P, next)<<endl;
+    }
     
 }
-
-

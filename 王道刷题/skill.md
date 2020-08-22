@@ -33,7 +33,7 @@
 void getNext(char * p, int * next)
 {
 	next[0] = -1;
-	int i = 0, j = -1;
+	int i = 0, j = -1; // i is index , j is value;
 
 	while (i < strlen(p))
 	{
@@ -69,5 +69,6 @@ int KMP(char * t, char * p)
     else 
        return -1;
 }
-
 ```
+12. 一个数的因子：就是从i到这个数（不包括本身）能够整除到数。 比如6 的因子是： 1 2 3
+
