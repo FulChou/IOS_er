@@ -71,4 +71,14 @@ int KMP(char * t, char * p)
 }
 ```
 12. 一个数的因子：就是从i到这个数（不包括本身）能够整除到数。 比如6 的因子是： 1 2 3
+13. 最大公约数：最小公倍数（两数的乘积 / 两数的最小公倍数）
 
+```c++
+//greatest common Divisor
+int GCD(int a,int b){//辗转相除法
+    if(b==0){
+        return a;
+    }else return GCD(b, a%b);
+}
+
+```
