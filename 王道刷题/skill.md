@@ -80,5 +80,5 @@ int GCD(int a,int b){//辗转相除法
         return a;
     }else return GCD(b, a%b);
 }
-
 ```
+14. 质数：一个数x 从2开始到sqrt（x） 都不能整除 x。那么这个x是质数。
