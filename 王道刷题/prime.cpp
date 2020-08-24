@@ -20,7 +20,7 @@ int initial(bool* table,int n){
         if(!table[i]) continue; // 不是质数
         prime.push_back(i);
         //int j = i*i;
-        //if(i>=bound) continue; // 加了这一句，g++ 运行就没问题了。。。确实可以节约一些操作,找到原因了 
+        if(i>=bound) continue; // 如果i超过一般，i*i一定会超过n，没必要进行计算了。加了这一句，g++ 运行就没问题了。。。确实可以节约一些操作,找到原因了 
         //int 大概是 -2^31 ~ 2^31-1 对应十进制： 2 * 10^10次的大小，所以不能六位乘六位。int会溢出，然后访问到不对的内存。这就是为什么数据不能太大。
         // 换成long long 也是对的；
         for(long long j=i * i;j<n;j+=i){ // g++ 出错
