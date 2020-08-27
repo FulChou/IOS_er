@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<math.h>
 #include<string>
+#include<ctime>
 using namespace std;
 
 void PrintN(int N){
@@ -11,19 +12,27 @@ void PrintN(int N){
     return;
 }
 
-void PrintN1(int N){
-    if(N){
-        PrintN1(N-1);
-        printf("%d\n",N);
-        return;
+void test(int N){
+    for (int i = 0; i < N; i++)
+    {
+        // for (int j = 0; j < N; j++)
+        // {
+        //     cout<<i+j<<" ";
+        // }
+        // cout<<endl;
+        cout<<i<<endl;
+        
     }
+    
 }
 
 int main()
-{
-    string str1 = "abc";
-    string str2 = "bc";
-    if(str2>str1) cout<<string::npos;
-    
+{   
+    clock_t start, end;
+    start = clock();
+    test(10);// 运行代码
+    end = clock();
+    cout<<"Run time: "<<(double)(end - start) / CLOCKS_PER_SEC<<"S"<<endl; // 头文件ctime
+
     return 0;
 }
