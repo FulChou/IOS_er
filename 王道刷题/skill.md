@@ -29,7 +29,7 @@
 10. sort(a,a+n,greater<int>())// 从大到小排序。
 11. KMP字符串匹配算法：
 ```c++
-// 求next 数组：
+// 求next 数组：，扫描一遍patter来求next数组；
 void getNext(char * p, int * next)
 {
 	next[0] = -1;
@@ -50,24 +50,24 @@ void getNext(char * p, int * next)
 // 进行kmp算法：
 int KMP(char * t, char * p) 
 {
-	int i = 0; 
-	int j = 0;
+	int i = 0;  // index of t
+	int j = 0;  // index of pattern
 
 	while (i < strlen(t) && j < strlen(p)) // i是否匹配超过字符串长度，是否匹配到目前的pattern
 	{
-		if (j == -1 || t[i] == p[j]) 
+		if (j == -1 || t[i] == p[j])   // 已经匹配的长度
 		{
 			i++;
-         j++;  // 匹配到了一个字符
+         	j++;  // 匹配到了一个字符
 		}
 	 	else // 没有匹配到，所以转到下一个位置
            		j = next[j];
-    	}
+    }
 
     if (j == strlen(p))
-       return i - j;
+       return i - j; // 找到了第一个的位置
     else 
-       return -1;
+       return -1；
 }
 ```
 12. 一个数的因子：就是从i到这个数（不包括本身）能够整除到数。 比如6 的因子是： 1 2 3
