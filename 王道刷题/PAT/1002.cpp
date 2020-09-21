@@ -118,48 +118,25 @@ void printP(Point *p){
 
 int main(){
  
- Point *a=NULL,*b=NULL;
+ Point *a=NULL,*b=NULL;  // 声明指针的时候 初始化 address 或者给NULl
  //cout<<a<<" "<<b<<" "<<endl;
  
  cin>>K1;
- a = new Point;
-//  a->a=0;
-//  a->k=0;
-//  a->next = NULL;
+ a = new Point;  //  创建一个指针块
  a = read(K1,a);
  //cout<<"a:"<<a<<endl;
  cin>>K2;
  b = new Point;
-//  b->a=0;
-//  b->k=0;
-//  b->next = NULL;
+
  b = read(K2,b);
-//cout<<"b:"<<b<<endl;
-//cout<<K2<<endl;
-//  printP(a);
-//  printP(b);
+
 Point * result = new Point;
 add(a,b,result);
-// printP(a);
-// printP(b);
-
 printP(result);
-
-
     return 0;
 }
-
-
-
 /*
 
-关联规则数据挖掘中最大频繁项集是什么
-JAVA的内存管理和垃圾回收机制
-B树和B+树的实现区别
-
-kruskal prime dijstra floyd 快排 AVO LCA KMP 最简单的01背包  最长公共子序列 最长上升子序列 堆 dfs+树 无优化的bfs 贪心
-平衡树 和 哈夫曼编码
-2 1 2.4 0 3.2
 2 2 1.5 1 0.5
 
 */
