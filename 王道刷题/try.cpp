@@ -26,13 +26,30 @@ void test(int N){
     
 }
 
+struct P{
+    int a;
+    int b;
+    
+    P(){
+        a=1;
+        b=100;
+    }
+    void Print(int a){
+        this->a = a;
+    }
+};
+
 int main()
 {   
-    clock_t start, end;
-    start = clock();
-    test(10);// 运行代码
-    end = clock();
-    cout<<"Run time: "<<(double)(end - start) / CLOCKS_PER_SEC<<"S"<<endl; // 头文件ctime
+    // clock_t start, end;
+    // start = clock();
+    // test(10);// 运行代码
+    // end = clock();
+    // cout<<"Run time: "<<(double)(end - start) / CLOCKS_PER_SEC<<"S"<<endl; // 头文件ctime
+    P p;
+    p.Print(6);
+    cout<<p.a<<" "<<p.b;
+
 
     return 0;
 }
