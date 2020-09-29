@@ -9,4 +9,4 @@
    value = map.at(key);
 3. 查看是否存在key y
     m.count(y) > 0;
-4. find(key) 返回指针，如果不是 m.end()，就是找到了；
+4. find(key) 返回指针，如果不是 m.end()，就是找到了
