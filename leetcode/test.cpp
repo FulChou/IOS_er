@@ -5,42 +5,40 @@
 
 using namespace std;
 
-bool isunique(string s){
-        map<char,int> dir;
-        for(int i=0;i<s.size();i++){
-            if(dir.count(s[i])) return false;
-            else dir[s[i]] = 1;
+    bool isPalindromic(string s){
+        int times = s.size()/2 + 1;
+        int index1 = 0;
+        int index2 = s.size()-1;
+        
+        while(times){
+            times--;
+            if(s[index1]!=s[index2]) return false;
+            index1++;
+            index2--;
         }
         return true;
     }
-
-    int lengthOfLongestSubstring(string s) {
-        // 感觉是在线处理： 不对
-        int current,Maxl,i,j;
-        int n=s.size();
-        current=Maxl=i=j=0;
-       unordered_set<char> unset;
-        while(i<n &&j<n){
-            
-            if(!unset.count(s[j]) ){
-                unset.insert(s[j]);
-                j++;
-                current = j-i;
-                if(current>Maxl) Maxl = current;
-            }else{
-                unset.erase(s[i]);
-                cout<<i<<"s[i]: "<<s[i]<<endl;
-                i++;
+    string longestPalindrome(string s) {
+        string result = "";
+        int length = 0;
+        for(int i=0;i<s.size();i++){
+            for(int j=1;j<=s.size()-i;j+=2){
+                string substr = s.substr(i,j);
+                if(isPalindromic(substr)){
+                    if(j>length){
+                        cout<<"j:"<<j<<"sub:"<<substr<<endl;
+                        length = j;
+                        result = substr;
+                    }
+                }
             }
         }
-        return Maxl;
+        return result;
     }
 
 
-
 int main(){
-    string s = "pwwkew";
-    int x =lengthOfLongestSubstring(s);
-    cout<<x;
+    string s = "cbbd";
+    cout<<longestPalindrome(s);
     return 0;
 }
