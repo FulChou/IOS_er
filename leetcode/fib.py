@@ -16,6 +16,4 @@ def memoize(self,cache:{},N: int) -> int:
 if __name__ == "__main__":
     #sl = Solution()
     # print(fib(10))
-    list1 = []
-    list1.append(1)
-    print(len(list1))
+    pass
