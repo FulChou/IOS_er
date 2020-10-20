@@ -2,6 +2,9 @@
 
 import requests
 from bs4 import BeautifulSoup
+"""
+发起请求，解析数据，保存数据
+"""
 
 def get_content(target):
     req = requests.get(url = target)
@@ -21,7 +24,7 @@ def get_content(target):
 if __name__ == '__main__':
     target = "https://www.uukanshu.com/b/102656/"
     server = 'https://www.uukanshu.com'
-    book_name = '我真没想重生啊'
+    book_name = '我真没想重生啊.txt'
     req = requests.get(url = target)
     req.encoding = 'gb2312'
     html = req.text
