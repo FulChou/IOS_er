@@ -43,5 +43,6 @@ int BFS(Node start, Node target) {
         /* 划重点：更新步数在这里 */
         step++;
     }
+    return -1 // 遍历完 还是没找到
 }
 ```
