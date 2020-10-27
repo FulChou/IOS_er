@@ -2,6 +2,8 @@
 import requests
 from bs4 import BeautifulSoup
 import re 
+import json
+import os
 
 
 
@@ -49,18 +51,34 @@ def login(tokenId) ->str:
     # print(type(req.cookies))
     # print(requests.utils.dict_from_cookiejar(req.cookies)) # 成功登录到 用户界面： nice！！
     req = session.post('http://202.197.71.125/loginsso.jsp',p_data,new_headers) # 改用session会话
+    # print(req.text)
     # print(req.cookies) # cookies 里面没有真的东西。。。 只有一个sessionID，后端不发过来（只存在前端浏览器中）
 
 ##进入填报界面： 可以在这里选择填哪一个同学：获取填报信息：
 def get_stu_information():
+    if os.path.exists('stu_data.json'): # exists information
+        with open('stu_data.json','r') as fl:
+            data_list = json.loads(fl.read())
+            print('1111',data_list)
+        return data_list
     req = session.get('http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0704/form?type=add')
+    # print(req.text)
     ## 拿出同学的数据：
     bstext = BeautifulSoup(req.text,'lxml')
-    # print(bstext)
     taglist = bstext.find_all('td',id=True)
-
     data_list = []
-    for td in taglist: ## 还差一个联系方式：gei
+    params_data = {
+    'gxxl0703Id': '',
+    'gxxl0705Id': '',
+    'type': 'edit'
+    }
+    # get_data = {
+    # 'gxxl0703Id': '553c2189e7e845af9e636d287e7ee00c',
+    # 'gxxl0705Id': '97a061b4758c48b2ba0b43f59ea1fb9d',
+    # 'type': 'edit'
+    # }
+
+    for td in taglist: ## 还差一个联系方式：get from jquery
         td_name = td.find_next_sibling('td')
         td_address = td_name.find_next_sibling('td')
         stu_name = td_name.string
@@ -68,8 +86,9 @@ def get_stu_information():
         stu_id = td.string
         # 找link id：
         tds = td.find_parent('tr').find('a')
-        id_string = tds.get('onclick')
-        url_id_list = re.findall(r"'\w{32}'|''",id_string)
+        id_string = tds.get('onclick') #得到包含id 的字符串，解析得到两个id
+        # print(id_string)
+        url_id_list = re.findall(r"'\w{32}'|''",id_string) # 这个正则会包含’ ‘ 号
         data = {    
         'xsid': stu_id,
         'xh': stu_id,
@@ -83,33 +102,44 @@ def get_stu_information():
         'xldj': '1级',
         'zjywtfsj': '无',
         'tj': '1' ,
-        'gxxl0703Id':url_id_list[0], #根本不需要煞费苦心去读取re id
-        'gxxl0715Id':url_id_list[1]
-            }
+        'gxxl0703Id':url_id_list[0].strip("'"), #根本不需要煞费苦心去读取re id
+        'gxxl0705Id':url_id_list[1].strip("'")
+        }
+        params_data['gxxl0703Id'] = data['gxxl0703Id']
+        params_data['gxxl0705Id'] = data['gxxl0705Id']
+
+        phone_num = get_phone_num(params_data)
+        data['lxfs'] = phone_num
+        # print(params_data['gxxl0703Id'],params_data['gxxl0705Id'],'http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0705/toAddDetail?\
+        # gxxl0703Id='+params_data['gxxl0703Id']+'&\
+        # gxxl0705Id='+params_data['gxxl0705Id']+'&\
+        # type=edit',params_data)
         data_list.append(data)
         # print(url_id_list)
         # print(tds)
-    print(data_list)
+    # print(data_list)
+    json_data = json.dumps(data_list)
+    with open('stu_data.json','w') as fl:
+        fl.write(json_data)
     return data_list
+
+def get_phone_num(params_data):
+    # print(params_data)
+    sub_req = session.get('http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0705/toAddDetail?\
+    gxxl0703Id='+params_data['gxxl0703Id']+'&\
+    gxxl0705Id='+params_data['gxxl0705Id']+'&\
+    type=edit',params=params_data)
+
+    # print('11111111',sub_req.text)
+    ### 解析：
+    bf = BeautifulSoup(sub_req.text,'lxml')
+    phone_num = bf.find('input',attrs={'name':'lxfs'}).get('value')
+    return phone_num
 
 def upload_data(data_list=None):
 
-    input_data = {
-    'xsid': '3901170101',
-    'xh': '3901170101',
-    'xm': '林浩铮',
-    'qs': '铁道学院学生1舍-5楼-501',
-    'lxfs': '18890091031',
-    'xyqk': 'B',
-    'qgzk': 'B',
-    'rjgx': 'B',
-    'shqk': 'B',
-    'xldj': '3级',
-    'zjywtfsj': '无',
-    'tj': '1' # data , 字典记得加引号：
-    }
-
-    req = session.post('http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0704/saveMain',data=data_list[0]) # 找到捷径，根本不需要网页的跳转id
+    req = session.post('http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0704/saveMain',
+    data=data_list[0]) # 找到捷径，根本不需要网页的跳转id
     print(req.status_code)
 
     # for data in data_list:
@@ -129,11 +159,15 @@ def upload_data(data_list=None):
     print("done")
 
 
+
+
+
 if __name__ == "__main__":
     tokenId = get_login_id()
     login(tokenId)
-    data_list = get_stu_information()
-    upload_data(data_list)
+
+    # upload_data(data_list)
+
     # header = {
     # 'Referer': 'http://202.197.71.125/a/physicalhealth/gxxl06/gXXLIndex/orderList',
     # 'User-Agent': userAgent,
@@ -162,35 +196,21 @@ if __name__ == "__main__":
     # 'Referer': 'http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0704/form?\
     #     gxxl0704Id=6a80eb366ce94a85befed91bacdce315&type=edit',
     # 'User-Agent': userAgent,
-    # 'Cookie': 'JSESSIONID=9955E69E6DBD8F4BBBDA4AFE202A75E9'
+    # 'Cookie': 'JSESSIONID=08D2D33B7F6B6E77C342BD25195F8A93'
     # }
+
     # get_data = {
     # 'gxxl0703Id': '553c2189e7e845af9e636d287e7ee00c',
     # 'gxxl0705Id': '97a061b4758c48b2ba0b43f59ea1fb9d',
     # 'type': 'edit'
     # }
-    # res3 = requests.get('http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0705/toAddDetail?\
-    #     gxxl0703Id=553c2189e7e845af9e636d287e7ee00c&\
-    #     gxxl0705Id=97a061b4758c48b2ba0b43f59ea1fb9d&\
-    #     type=edit',headers=header3,params=get_data)
+    # res3 = session.get('http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0705/toAddDetail?\
+    #     gxxl0703Id='+get_data['gxxl0703Id']+'&\
+    #     gxxl0705Id='+get_data['gxxl0705Id']+'&\
+    #     type=edit',params=get_data)
     # print(res3.text) # 拿到了这个界面，但是cooike 要是对的：
 
-    ### 直接模拟请求：
-    # input_data = {
-    # 'xsid': '3901170101',
-    # 'xh': '3901170101',
-    # 'xm': '林浩铮',
-    # 'qs': '铁道学院学生1舍-5楼-501',
-    # 'lxfs': '18890091031',
-    # 'xyqk': 'A',
-    # 'qgzk': 'A',
-    # 'rjgx': 'A',
-    # 'shqk': 'A',
-    # 'xldj': '1级',
-    # 'zjywtfsj': '无',
-    # 'tj': '1' # data , 字典记得加引号：
-    # }
-
+    data_list = get_stu_information()
 
     
     
