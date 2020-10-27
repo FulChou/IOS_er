@@ -83,19 +83,57 @@ def get_stu_information():
         'xldj': '1级',
         'zjywtfsj': '无',
         'tj': '1' ,
-        'gxxl0703Id':url_id_list[0],
+        'gxxl0703Id':url_id_list[0], #根本不需要煞费苦心去读取re id
         'gxxl0715Id':url_id_list[1]
             }
         data_list.append(data)
         # print(url_id_list)
         # print(tds)
     print(data_list)
+    return data_list
+
+def upload_data(data_list=None):
+
+    input_data = {
+    'xsid': '3901170101',
+    'xh': '3901170101',
+    'xm': '林浩铮',
+    'qs': '铁道学院学生1舍-5楼-501',
+    'lxfs': '18890091031',
+    'xyqk': 'B',
+    'qgzk': 'B',
+    'rjgx': 'B',
+    'shqk': 'B',
+    'xldj': '3级',
+    'zjywtfsj': '无',
+    'tj': '1' # data , 字典记得加引号：
+    }
+
+    req = session.post('http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0704/saveMain',data=data_list[0]) # 找到捷径，根本不需要网页的跳转id
+    print(req.status_code)
+
+    # for data in data_list:
+    #     del data[]
+
+    # input_headers = {
+    # 'Referer': 'http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0705/toAddDetail?\
+    #     gxxl0703Id=553c2189e7e845af9e636d287e7ee00c&\
+    #     gxxl0705Id=97a061b4758c48b2ba0b43f59ea1fb9d&\
+    #     type=edit',
+    # 'User-Agent': userAgent,
+    # 'Cookie': 'JSESSIONID=9955E69E6DBD8F4BBBDA4AFE202A75E9',
+    # 'X-Requested-With': 'XMLHttpRequest'
+    # }
+    # input_res = requests.post('http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0704/saveMain',data=input_data,headers=input_headers)
+    # print(input_res.status_code)
+    print("done")
 
 
 if __name__ == "__main__":
     tokenId = get_login_id()
     login(tokenId)
-    get_stu_information()
+    data_list = get_stu_information()
+    upload_data(data_list)
     # header = {
     # 'Referer': 'http://202.197.71.125/a/physicalhealth/gxxl06/gXXLIndex/orderList',
     # 'User-Agent': userAgent,
@@ -152,18 +190,8 @@ if __name__ == "__main__":
     # 'zjywtfsj': '无',
     # 'tj': '1' # data , 字典记得加引号：
     # }
-    # input_headers = {
-    # 'Referer': 'http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0705/toAddDetail?\
-    #     gxxl0703Id=553c2189e7e845af9e636d287e7ee00c&\
-    #     gxxl0705Id=97a061b4758c48b2ba0b43f59ea1fb9d&\
-    #     type=edit',
-    # 'User-Agent': userAgent,
-    # 'Cookie': 'JSESSIONID=9955E69E6DBD8F4BBBDA4AFE202A75E9',
-    # 'X-Requested-With': 'XMLHttpRequest'
-    # }
-    # input_res = requests.post('http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0704/saveMain',data=input_data,headers=input_headers)
-    # print(input_res.status_code)
-    # print("done")
+
+
     
     
 '''
