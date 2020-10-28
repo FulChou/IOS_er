@@ -14,7 +14,7 @@ session = requests.session() # 使用session对象
 def get_login_id():
     url = 'http://ca.its.csu.edu.cn/Home/Login/69'
     post_data = {
-    'userName': 'xxx',
+    'userName': 'xxxx',
     'passWord': 'xxxx',
     'enter': 'true'
     }
