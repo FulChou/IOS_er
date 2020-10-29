@@ -1,3 +1,5 @@
+
+#  2020.10.28日
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
         left, right, valid = 0, 0, 0

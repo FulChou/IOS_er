@@ -14,8 +14,8 @@ session = requests.session() # 使用session对象
 def get_login_id():
     url = 'http://ca.its.csu.edu.cn/Home/Login/69'
     post_data = {
-    'userName': 'xxxx',
-    'passWord': 'xxxx',
+    'userName': '0304170127',
+    'passWord': '202662',
     'enter': 'true'
     }
     headers = {
@@ -34,7 +34,7 @@ def get_login_id():
 def login(tokenId) ->str:
     p_data = {
     "tokenId": tokenId,
-    "account": "xxx",
+    "account": "0304170127",
     "Thirdsys": "xsgzx"
     }
     new_headers = {
@@ -52,10 +52,11 @@ def login(tokenId) ->str:
 
 ##进入填报界面： 可以在这里选择填哪一个同学：获取填报信息：
 def get_stu_information():
-    if os.path.exists('stu_data.json'): # exists information
-        with open('stu_data.json','r') as fl:
-            data_list = json.loads(fl.read())
-        return data_list
+    # if os.path.exists('stu_data.json'): # exists information
+    #     with open('stu_data.json','r') as fl:
+    #         data_list = json.loads(fl.read())
+    #     return data_list
+    
     req = session.get('http://202.197.71.125/a/physicalhealth/gxxl07/gXXL0704/form?type=add')
     ## 拿出同学的数据：
     bstext = BeautifulSoup(req.text,'lxml')
