@@ -42,3 +42,51 @@ int lengthOfLongestSubstring(string s) {
         return ans;
     }
     */
+
+/*
+ # 代码时间意义不大，时间复杂度才是重点
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        maxL, left, right = 0, 0, 0
+        from collections import defaultdict
+        window = defaultdict(int) # 可以用 set
+        if len(s) == 1: return 1
+        while right < len(s):
+            c = s[right]
+            right += 1
+            if c in window: # 如果已存在 c
+                cL = s[left]
+                print(cL,c)
+                while cL != c:
+                    del window[cL]
+                    left += 1  
+                    cL = s[left]
+                left += 1 #找到已存在的那个c index 后一个字符
+                length = right - left # 计算后一个字符 到c的lenth
+                if length > maxL: # 记录最大长度
+                    maxL = length
+            else: 
+                window[c] += 1 # 计算
+                length = right - left # 计算后一个字符 到c的lenth
+                if length > maxL: # 记录最大长度
+                    maxL = length
+        return maxL
+
+# 方法二
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        maxL, left, right = 0, 0, 0
+        from collections import defaultdict
+        window = defaultdict(int) # 还是用的dic
+        if len(s) == 1: return 1
+        while right < len(s): # 右移
+            c = s[right]
+            right += 1
+            window[c] += 1
+            while window[c] > 1: # 缩小window
+                cL = s[left]
+                left += 1
+                window[cL] -= 1
+            maxL = max(maxL,right-left)
+        return maxL
+*/
