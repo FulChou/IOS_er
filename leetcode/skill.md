@@ -106,6 +106,7 @@ int right_bound(int[] nums, int target) {
     return right;
 }
 ```
+
 ### 滑动窗口解题框架：
 
 ```java
