@@ -141,3 +141,32 @@ void slidingWindow(string s, string t) {
     }
 }
 ```
+
+### 股票题目 动态规划：
+
+``` python 
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int: 
+        '''
+        状态转移方程  dp?
+        dp_table[i][k][1] = max(dp_table[i-1][k][1],dp_table[i-1][k-1][0]-prices[i])
+        dp_table[i][k][0] = max(dp_table[i-1][k][0],dp_table[i-1][k][1]+prices[i])
+        '''
+        n = len(prices)
+        if n == 0: return 0
+        # dp_table = [[0] * 2 for i in range(n)] #取消了一个数组
+        for i in range(0,n):
+            if i == 0:
+                # dp_table[0][1] = -prices[i]
+                # dp_table[0][0] = 0
+                # 节约内存写法：
+                dp_i_1 = -prices[i]
+                dp_i_0 = 0
+                
+            else:
+                temp = dp_i_1
+                dp_i_1 = max(dp_i_1,0-prices[i])
+                dp_i_0 = max(dp_i_0,temp+prices[i])
+        # print(dp_table)
+        return dp_i_0
+``` 
