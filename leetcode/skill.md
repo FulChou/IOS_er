@@ -148,9 +148,10 @@ void slidingWindow(string s, string t) {
 class Solution:
     def maxProfit(self, prices: List[int]) -> int: 
         '''
-        状态转移方程  dp?
-        dp_table[i][k][1] = max(dp_table[i-1][k][1],dp_table[i-1][k-1][0]-prices[i])
-        dp_table[i][k][0] = max(dp_table[i-1][k][0],dp_table[i-1][k][1]+prices[i])
+        状态转移方程  dp！第i天，还能操作k次，1：有股票，0：没股票
+        dp_table[i][k][1] = max(dp_table[i-1][k][1], dp_table[i-1][k-1][0] - prices[i])
+        dp_table[i][k][0] = max(dp_table[i-1][k][0], dp_table[i-1][k][1] + prices[i])
+        注意 base case 和 怎么处理k
         '''
         n = len(prices)
         if n == 0: return 0
