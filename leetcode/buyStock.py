@@ -48,8 +48,8 @@ class Solution:
                 dp_i_0 = 0
             else:
                 temp = dp_i_1
-                dp_i_1 = max(dp_i_1,dp_i_0 - prices[i])
-                dp_i_0 = max(dp_i_0,dp_i_1 + prices[i])
+                dp_i_1 = max(dp_i_1, dp_i_0 - prices[i])
+                dp_i_0 = max(dp_i_0, dp_i_1 + prices[i])
         return dp_i_0
 
 ## 第二种：
@@ -61,7 +61,7 @@ class Solution:
                 ans += prices[i] - prices[i-1]
         return ans
 
-### 第三题：
+### 第三题： k = 2
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         '''
@@ -98,3 +98,34 @@ class Solution:
                 dp_i11 = max(dp_i11, 0 - prices[i])
         
         return dp_i20
+
+### 第四题：
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        n = len(prices)
+        if n == 0: return 0
+        if k > n / 2:
+            dp_ik0 = 0
+            dp_ik1 = -float('inf')
+            for i in range(0,n):
+                temp = dp_ik0
+                dp_ik0 = max(dp_ik0, dp_ik1 + prices[i])
+                dp_ik1 = max(dp_ik1, temp - prices[i])
+            return dp_ik0
+        else:
+            # dp_table = [[[0 for d in range(2)] for k in range(k + 1)]for i in range(n)]
+            # 优化不需要存储 时间i 维度。 当前时刻的最优解只与 前一个时刻有关
+            dp_table = [[0 for d in range(2)] for k in range(k + 1)]
+            maxk = k 
+            for i in range(0,n):
+                for k in range(maxk,0,-1): # 注意这个 -1 不然里面的循环都不会进行了, 注意 k in range（k） 下一次k会混乱
+                    if i == 0:
+                        dp_table[k][0] = 0
+                        dp_table[k][1] = -prices[i]
+                    else:
+                        dp_table[k][0] = max(dp_table[k][0], dp_table[k][1] + prices[i])
+                        dp_table[k][1] = max(dp_table[k][1], dp_table[k-1][0] - prices[i])
+            # print(dp_table)
+            # print(k)
+            return dp_table[maxk][0]
+
