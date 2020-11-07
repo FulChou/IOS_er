@@ -129,3 +129,21 @@ class Solution:
             # print(k)
             return dp_table[maxk][0]
 
+### 第五题 带[冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+        if n == 0: return 0
+        dp_table = [[0 for n in range(2)] for i in range(n)]
+        for i in range(0,n):
+            if i == 0:
+                dp_table[0][0] = 0
+                dp_table[0][1] = -prices[i]
+            elif i == 1:
+                dp_table[1][0] = max(dp_table[0][0], dp_table[0][1] + prices[i])
+                dp_table[1][1] = max(dp_table[0][1], -prices[i]) 
+            else:
+                dp_table[i][1] = max(dp_table[i-1][1], dp_table[i-2][0] - prices[i])
+                dp_table[i][0] = max(dp_table[i-1][0], dp_table[i-1][1] + prices[i])
+        # print(dp_table)
+        return dp_table[n-1][0]
