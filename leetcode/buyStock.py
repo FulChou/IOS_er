@@ -1,4 +1,5 @@
-# 第一题：
+### 股票题，三维 DP
+# 第一题： 11.03晚上做完
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int: 
@@ -52,7 +53,7 @@ class Solution:
                 dp_i_0 = max(dp_i_0, dp_i_1 + prices[i])
         return dp_i_0
 
-## 第二种：
+    ### 第二种方法：
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         ans = 0
@@ -99,7 +100,7 @@ class Solution:
         
         return dp_i20
 
-### 第四题：
+### 第四题 任意k次交易：
 class Solution:
     def maxProfit(self, k: int, prices: List[int]) -> int:
         n = len(prices)
@@ -147,3 +148,19 @@ class Solution:
                 dp_table[i][0] = max(dp_table[i-1][0], dp_table[i-1][1] + prices[i])
         # print(dp_table)
         return dp_table[n-1][0]
+
+### 第六题 手续费： [链接](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
+### 11.09号
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        n = len(prices)
+        if n == 0: return 0
+        for i in range(0, n):
+            if i == 0:
+                dpi0 = 0
+                dpi1 = -prices[i]
+            else:
+                temp = dpi1
+                dpi1 = max(dpi1, dpi0 - prices[i])
+                dpi0 = max(dpi0, temp + prices[i] - fee)
+        return dpi0
