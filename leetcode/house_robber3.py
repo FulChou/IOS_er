@@ -1,4 +1,6 @@
 class Solution:
+    """337 11.11日 9:30-12:00 leecode  [链接](https://leetcode-cn.com/problems/house-robber-iii/)
+    """
     def rob(self, root: TreeNode) -> int:
         # ### 这法子，最后一个样例通过不了, 这应该算递归的方法。
         # ### 很可能是因为python的原因。。。
