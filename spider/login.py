@@ -6,23 +6,24 @@ import os
 import copy
 
 
-userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36\
-            (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36'
+userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36'
 
 session = requests.session() # 使用session对象
+username = '0304170106'
+password = '312578'
 # 获取登录的 token：
 def get_login_id():
     url = 'http://ca.its.csu.edu.cn/Home/Login/69'
     post_data = {
-    'userName': '0304170127',
-    'passWord': '202662',
+    'userName': username,
+    'passWord': password,
     'enter': 'true'
     }
     headers = {
         "Referer": "http://ca.its.csu.edu.cn/Home/Login/69",
         'User-Agent': userAgent,
     }
-    req = requests.post(url,post_data,headers)
+    req = session.post(url,post_data,headers)
     html = req.text
     bf = BeautifulSoup(html,'lxml')
     tokenId_input_list = bf.find_all('input',attrs={'name':'tokenId'}) # name 是函数签名，所以不能用name = "tokenId"
@@ -34,8 +35,8 @@ def get_login_id():
 def login(tokenId) ->str:
     p_data = {
     "tokenId": tokenId,
-    "account": "0304170127",
-    "Thirdsys": "xsgzx"
+    "account": username,
+    "Thirdsys": "xsgzx" # xsgzxt
     }
     new_headers = {
         'Referer': 'http://ca.its.csu.edu.cn/',
