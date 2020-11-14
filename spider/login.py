@@ -9,8 +9,8 @@ import copy
 userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36'
 
 session = requests.session() # 使用session对象
-username = '0304170106'
-password = '312578'
+username = 'xxx'
+password = 'xxx'
 # 获取登录的 token：
 def get_login_id():
     url = 'http://ca.its.csu.edu.cn/Home/Login/69'
