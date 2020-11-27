@@ -4,13 +4,12 @@ import re
 import json
 import os
 import copy
-
+from random import choice
+username = 'xx'
+password = 'xx'
 
 userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36'
-
 session = requests.session() # 使用session对象
-username = 'xxx'
-password = 'xxx'
 # 获取登录的 token：
 def get_login_id():
     url = 'http://ca.its.csu.edu.cn/Home/Login/69'
@@ -51,6 +50,7 @@ def login(tokenId) ->str:
     # print(req.text)
     # print(req.cookies) # cookies 里面没有真的东西。。。 只有一个sessionID，后端不发过来（只存在前端浏览器中）
 
+level = ['A', 'B'] # 评价登记
 ##进入填报界面： 可以在这里选择填哪一个同学：获取填报信息：
 def get_stu_information():
     # if os.path.exists('stu_data.json'): # exists information
@@ -85,10 +85,10 @@ def get_stu_information():
         'xm': 'stu_name',
         'qs': 'stu_address',
         'lxfs': '13690098765',
-        'xyqk': 'A',
-        'qgzk': 'A',
-        'rjgx': 'A',
-        'shqk': 'A',
+        'xyqk': choice(level),
+        'qgzk': choice(level),
+        'rjgx': choice(level),
+        'shqk': choice(level),
         'xldj': '1级',
         'zjywtfsj': '无',
         'tj': '1' ,
