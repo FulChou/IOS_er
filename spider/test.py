@@ -1,14 +1,42 @@
 
 import re
 
-if __name__ == "__main__":
-    # print(len('cd64af5c26eb4929ab06870978aeb32c'))
-    string = "addContent('553c2189e7e845af9e636d287e7ee00c','97a061b4758c48b2ba0b43f59ea1fb9d','add','3901170101')"
+from numpy.lib.type_check import imag
 
-    str2 = "viewTalk('caf2a9c2e51c45289ffdea670808c7a1','')"
-    print(string)
+#coding=utf-8
+#图片修复
 
-    # res = re.findall(r"'\w{32}'",string)
+import cv2
+import numpy as np
 
-    print(re.findall(r"'\w{32}'|''",string))  # 保证两种格式都能被正则到
-    # print(res)
+path = "/Users/vincent/Downloads/b4_test/jpg (4261).jpg"
+
+img = cv2.imread(path)
+print(img)
+
+hight, width, depth = img.shape[0:3]
+
+print(hight, width, depth)
+
+
+#图片二值化处理，把[240, 240, 240]~[255, 255, 255]以外的颜色变成0
+thresh = cv2.inRange(img, np.array([240, 240, 240]), np.array([255, 255, 255]))
+
+#创建形状和尺寸的结构元素
+kernel = np.ones((3, 3), np.uint8)
+
+#扩张待修复区域
+hi_mask = cv2.dilate(thresh, kernel, iterations=1)
+specular = cv2.inpaint(img, hi_mask, 5, flags=cv2.INPAINT_TELEA)
+
+cv2.namedWindow("Image", 0)
+cv2.resizeWindow("Image", int(width / 2), int(hight / 2))
+cv2.imshow("Image", img)
+
+# cv2.namedWindow("newImage", 0)
+# cv2.resizeWindow("newImage", int(width / 2), int(hight / 2))
+# cv2.imshow("newImage", specular)
+
+# cv2.imwrite('newImage.jpg',img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
