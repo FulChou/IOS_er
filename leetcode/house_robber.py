@@ -2,7 +2,7 @@
 Author: Ful Chou
 Date: 2020-11-09 20:22:20
 LastEditors: Ful Chou
-LastEditTime: 2020-12-21 16:39:42
+LastEditTime: 2020-12-23 11:14:37
 FilePath: /leetcode/house_robber.py
 Description: What this document does
 '''
@@ -35,6 +35,7 @@ class Solution:
             dp_i1 = dp_i
             # print(i,dp_i)
         return dp_i
+    #  method 2
     def rob(self, nums: List[int]) -> int:
         #  max profit is last house 
         """
@@ -47,7 +48,7 @@ class Solution:
             return 0
         housei, housei1, housei2 = 0, 0, 0
         for i in range(n):
-            housei = max(housei1, housei2 + nums[i])
+            housei = max(housei1, housei2 + nums[i]) # housei1 = housei
             housei2 = housei1 
             housei1 = housei
         return housei

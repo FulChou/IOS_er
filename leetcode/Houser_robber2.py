@@ -1,4 +1,12 @@
-### 213 题
+'''
+Author: Ful Chou
+Date: 2020-11-10 15:51:49
+LastEditors: Ful Chou
+LastEditTime: 2020-12-23 11:50:58
+FilePath: /leetcode/Houser_robber2.py
+Description: What this document does
+'''
+### 213 题 2020.12.23日 第二次做
 class Solution:
     def rob(self, nums: List[int]) -> int:
         n = len(nums)
