@@ -2,3 +2,7 @@
 Thumbs.db
 **/Pods
 **/Podfile.lock
+
+spider/new_byb.py
+
+spider/chromedriver
