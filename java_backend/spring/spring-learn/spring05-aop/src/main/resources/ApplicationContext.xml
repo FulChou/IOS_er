@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+        <!--       注解自动配置 -->
+        <context:annotation-config/>
+        <context:component-scan base-package="com.fulchou"/>
+
+        <bean id="afterlog" class="com.fulchou.Log.AfterLog"/>
+        <bean id="log" class="com.fulchou.Log.log"/>
+        <bean id="userService" class="com.fulchou.Service.UserServiceImp"/>
+        <bean id="userServiceImp" class="com.fulchou.Service.UserServiceImp"/>
+        <bean id="diyAop" class="com.fulchou.Log.DiyAop"/>
+    <!--    <bean id="annotationAop" class="com.fulchou.Log.AnnotationAop"/>-->
+
+
+        <aop:aspectj-autoproxy/>
+
+        <aop:config>
+            <aop:pointcut id="userServiceLog" expression="execution(* com.fulchou.Service.*.*(..))"/>
+
+            <aop:advisor advice-ref="log" pointcut-ref="userServiceLog"/>
+            <aop:advisor advice-ref="afterlog" pointcut-ref="userServiceLog"/>
+
+            <aop:aspect ref="diyAop">
+    <!--            <aop:pointcut id="point" expression="execution(* com.fulchou.Service.*.*(..))"/>-->
+
+    <!--            <aop:before method="Atbefore" pointcut-ref="userServiceLog"/>-->
+
+            </aop:aspect>
+
+        </aop:config>
+</beans>

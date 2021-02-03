@@ -10,6 +10,9 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>spring03-annotation</module>
+        <module>spring04-javaConfig</module>
+        <module>spring05-aop</module>
+        <module>spring06-mybatis</module>
     </modules>
 
     <dependencies>
@@ -25,6 +28,12 @@
             <artifactId>junit</artifactId>
             <version>4.13.1</version>
             <scope>test</scope>
+        </dependency>
+        <!--        aop 依赖-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.1</version>
         </dependency>
 
 

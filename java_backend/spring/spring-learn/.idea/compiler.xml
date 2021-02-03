@@ -7,8 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="spring02-hello-xml" />
+        <module name="spring06-mybatis-transaction" />
         <module name="spring01" />
+        <module name="spring05-aop" />
         <module name="spring03-annotation" />
+        <module name="spring04-javaConfig" />
       </profile>
     </annotationProcessing>
   </component>

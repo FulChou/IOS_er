@@ -50,7 +50,7 @@
 
 - 显式手动写 xml
 
-- 显式 手动写java
+- 显式手动写 java
 
 - 隐式 自动装配bean：
 
@@ -105,10 +105,166 @@ java的 @Resource 也可以实现自动装配 (name={name}) 指定名字
 
 类似的在不同的位置(文件夹)使用不用的注解：
 
-**@Repository：**
+**@Repository：** Dao
 
-**@Service：**
+**@Service：**Service
 
-**@Controller：**
+**@Controller：**Controller
 
 **@Scope("Singleton")**: 单例，原型
+
+## 6.使用javaConfig来实现配置
+
+纯java的配置：
+
+一个专门的类，用来实现配置，对于@bean： class：方法返回类型， id：方法名。
+
+使用AnnotationConfigApplicationContex类来获取配置文件（config.java）
+
+
+
+## 7.代理模式
+
+就是 在不改变原代码的情况下 新增功能。
+
+### 7.1介绍
+
+**意图：**为其他对象提供一种代理以控制对这个对象的访问。
+
+**主要解决：**在直接访问对象时带来的问题，比如说：要访问的对象在远程的机器上。在面向对象系统中，有些对象由于某些原因（比如对象创建开销很大，或者某些操作需要安全控制，或者需要进程外的访问），直接访问会给使用者或者系统结构带来很多麻烦，我们可以在访问此对象时加上一个对此对象的访问层。
+
+**何时使用：**想在访问一个类时做一些控制。
+
+**如何解决：**增加中间层。
+
+**关键代码：**实现与被代理类组合。
+
+**应用实例：** 1、Windows 里面的快捷方式。 2、猪八戒去找高翠兰结果是孙悟空变的，可以这样理解：把高翠兰的外貌抽象出来，高翠兰本人和孙悟空都实现了这个接口，猪八戒访问高翠兰的时候看不出来这个是孙悟空，所以说孙悟空是高翠兰代理类。 3、买火车票不一定在火车站买，也可以去代售点。 4、一张支票或银行存单是账户中资金的代理。支票在市场交易中用来代替现金，并提供对签发人账号上资金的控制。 5、spring aop。
+
+**优点：** 1、职责清晰。 2、高扩展性。 3、智能化。
+
+**缺点：** 1、由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢。 2、实现代理模式需要额外的工作，有些代理模式的实现非常复杂。
+
+
+
+### 7.2 动态代理
+
+链接：https://www.liaoxuefeng.com/wiki/1252599548343744/1264804593397984
+
+我们仍然先定义了接口`Hello`，但是我们并不去编写实现类，而是直接通过JDK提供的一个`Proxy.newProxyInstance()`创建了一个`Hello`接口对象。这种没有实现类但是在运行期动态创建了一个接口对象的方式，我们称为动态代码。JDK提供的动态创建接口对象的方式，就叫动态代理。
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        InvocationHandler handler = new InvocationHandler() {
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                System.out.println(method);
+                if (method.getName().equals("morning")) {
+                    System.out.println("Good morning, " + args[0]);
+                }
+                return null;
+            }
+        };
+        Hello hello = (Hello) Proxy.newProxyInstance(
+            Hello.class.getClassLoader(), // 传入ClassLoader
+            new Class[] { Hello.class }, // 传入要实现的接口
+            handler); // 传入处理调用方法的InvocationHandler
+        hello.morning("Bob");
+    }
+}
+
+interface Hello {
+    void morning(String name);
+}
+```
+
+## 8.Spring 中的AOP
+
+Spring 容器帮我们去做 动态代理，我们 只需要写好 真实类，代理接口 需要做的事。然后配置好。就可以使用AOP了
+
+![image-20210202153904255](/Users/vincent/Library/Application Support/typora-user-images/image-20210202153904255.png)
+
+- 实现方式一： 实现api接口
+
+写代理需要做的事情类（实现api接口），写接口类。然后使用xml 文件配置
+
+execution 要执行的位置! (*(修饰词) *(返回值) *(类名) *(方法名) *(参数))
+
+- 实现方式二：自定义切面类，然后让切面类里面的方法，通过xml 配置在业务方法的 before，after 等时机执行
+  - 缺点是，无法获得接口，函数名信息
+- 实现方式三： 注解：
+  - 写一个类，记得托管给 spring 容器
+  -  @Aspect：注解
+  - @Before: 在之前执行（”execution（）“ ）表达式，指定加入注解的类
+
+## 9. 整合mybatis
+
+### mybatis 基本使用步骤：
+
+1. 编写实体类
+2. 编写核心配置文件
+3. mapper 对应的的接口
+4. 编写mapper.xml, 并且注册到核心配置文件里面
+5. 测试
+
+整合到 spring 两种方式：
+
+方式一：
+
+每一个mapper 实现类 注册一个bean的时候，使用set方法 注入一个 SqlSessionTemplate 对象
+
+```xml
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+```
+
+
+
+方式二， mapper 实现类 继承SqlSessionDaoSupport ， 直接 getSqlSession 去使用
+
+``` java
+
+        UserMapper mapper = getSqlSession().getMapper(UserMapper.class);
+        return mapper.getUsers();
+```
+
+## 10 .声明式事务：aop
+
+事务特性：
+
+### ⑴ 原子性（Atomicity）
+
+　　原子性是指事务包含的所有操作要么全部成功，要么全部失败回滚。
+
+### ⑵ 一致性（Consistency）
+
+　　一致性是指事务必须使数据库从一个一致性状态变换到另一个一致性状态，也就是说一个事务执行之前和执行之后都必须处于一致性状态。
+
+　　拿转账来说，假设用户A和用户B两者的钱加起来一共是5000，那么不管A和B之间如何转账，转几次账，事务结束后两个用户的钱相加起来应该还得是5000，这就是事务的一致性。
+
+### ⑶ 隔离性（Isolation）
+
+　　隔离性是当多个用户并发访问数据库时，比如操作同一张表时，数据库为每一个用户开启的事务，不能被其他事务的操作所干扰，多个并发事务之间要相互隔离。
+
+　　即要达到这么一种效果：对于任意两个并发的事务T1和T2，在事务T1看来，T2要么在T1开始之前就已经结束，要么在T1结束之后才开始，这样每个事务都感觉不到有其他事务在并发地执行。
+
+### ⑷ 持久性（Durability）
+
+　　持久性是指一个事务一旦被提交了，那么对数据库中的数据的改变就是永久性的，即便是在数据库系统遇到故障的情况下也不会丢失提交事务的操作
+
+添加事务管理器，然后设置事务切面（给某些方法名，加入事务管理）通过aop 织入，给某一些类加入事务管理功能。
+
+![image-20210203164648334](/Users/vincent/Library/Application Support/typora-user-images/image-20210203164648334.png)
+
+或直接按照官方文档，配置直接 全局事务。
+
+```xml
+<tx:jta-transaction-manager />
+```
+
+
+
+
+
