@@ -1,4 +1,4 @@
-package com.fulchou.Intercepter;
+package com.fulchou.Interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
