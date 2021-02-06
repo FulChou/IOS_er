@@ -1,0 +1,9 @@
+server:
+  #端口号
+  port: 8888
+
+
+user:
+  name: 周福
+  age: 10
+  hobby: 'plat \n hh'
