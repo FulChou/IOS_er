@@ -1,5 +1,6 @@
 ### 股票题，三维 DP
 # 第一题： 11.03晚上做完
+# 第二遍：2021.03.15 
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int: 
@@ -25,6 +26,28 @@ class Solution:
                 dp_i_0 = max(dp_i_0,temp+prices[i])
         # print(dp_table)
         return dp_i_0
+    # 第二遍做法：
+    def maxProfit(self, prices: List[int]) -> int: 
+        '''
+        dp[i][j]: 第i天，1还有，(0) 没有了股票 能获得的最大profit:
+        忘记了第几次买了，即k。
+        通过限制 dp[i-1][0] 一直为0，保证没有上一次卖完，即只能交易一次。
+        '''
+        n = len(prices)
+        dp = [[0] * 2 for _ in range(n+1)]
+        dp[0][0] = 0
+        dp[0][1] = -float('inf')
+        for i in range(1,n+1):
+            # 这样写的话，没有只买卖一次 （single day）
+            dp[i][1] = max(
+                dp[i-1][1],
+                0 - prices[i-1] # 保证没有上一次卖的过程，所以肯定是第一次买
+            )            
+            dp[i][0] = max(
+                dp[i-1][0],
+                dp[i-1][1] + prices[i-1]
+            )
+        return dp[n][0]
 
 
 ## 第二题：
