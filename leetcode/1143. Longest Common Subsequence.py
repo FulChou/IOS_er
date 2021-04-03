@@ -2,10 +2,12 @@
 Author: Ful Chou
 Date: 2021-01-22 17:12:42
 LastEditors: Ful Chou
-LastEditTime: 2021-01-22 17:14:25
+2021-01-22 17:14:25
+LastEditTime: 2021-04-03 10:37:51
 FilePath: /leetcode/1143. Longest Common Subsequence.py
 Description: What this document does
 https://leetcode-cn.com/problems/longest-common-subsequence/
+第二次做： 21.04.03 清明节第一天
 '''
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
